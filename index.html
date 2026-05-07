@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Positivly — Content Generator</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #FEFCE8; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 680px; margin: 0 auto; }
+  .header { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; }
+  .logo { width: 44px; height: 44px; background: #F5C842; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+  .header h1 { font-size: 22px; font-weight: 600; color: #1a1a1a; }
+  .header p { font-size: 13px; color: #888; margin-top: 2px; }
+  .card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid #f0e8c0; }
+  .section-label { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+  .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .tab-btn { font-size: 13px; padding: 7px 16px; border-radius: 20px; border: 1px solid #ddd; background: white; cursor: pointer; color: #666; transition: all 0.15s; }
+  .tab-btn.active { background: #F5C842; color: #4a3400; border-color: #F5C842; font-weight: 500; }
+  .tab-btn:hover:not(.active) { border-color: #F5C842; color: #4a3400; }
+  .platform-btn { font-size: 12px; padding: 6px 14px; border-radius: 8px; border: 1px solid #ddd; background: white; cursor: pointer; color: #666; transition: all 0.15s; }
+  .platform-btn.active { background: #f5f5f0; border-color: #aaa; color: #1a1a1a; font-weight: 500; }
+  input[type="text"] { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; margin-bottom: 1.25rem; outline: none; font-family: inherit; background: #fafafa; }
+  input[type="text"]:focus { border-color: #F5C842; background: white; }
+  .checkbox-group { display: flex; gap: 20px; margin-bottom: 1.25rem; }
+  .checkbox-group label { font-size: 13px; color: #333; display: flex; align-items: center; gap: 7px; cursor: pointer; }
+  .gen-btn { width: 100%; padding: 13px; font-size: 15px; font-weight: 600; background: #F5C842; color: #4a3400; border: none; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+  .gen-btn:hover { background: #e8b800; }
+  .gen-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .error { color: #c0392b; font-size: 13px; margin-top: 8px; display: none; }
+  .output { display: none; }
+  .caption-block { margin-bottom: 1.25rem; }
+  .caption-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .caption-label { font-size: 13px; font-weight: 500; color: #555; }
+  .copy-btn { font-size: 12px; padding: 4px 12px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer; color: #666; transition: all 0.15s; }
+  .copy-btn:hover { background: #f5f5f0; border-color: #aaa; }
+  .copy-btn.copied { background: #E1F5EE; border-color: #0F6E56; color: #0F6E56; }
+  textarea { width: 100%; padding: 10px 14px; border: 1px solid #eee; border-radius: 10px; font-size: 13px; line-height: 1.6; background: #fafafa; color: #1a1a1a; resize: none; font-family: inherit; }
+  .divider { border: none; border-top: 1px solid #f0f0f0; margin: 1.25rem 0; }
+  .hashtag-area { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+  .hashtag { background: #EBF4FF; color: #185FA5; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+  canvas { width: 100%; border-radius: 12px; border: 1px solid #eee; display: block; }
+  .reel-hook { background: #F5C842; border-radius: 10px; padding: 12px 16px; margin-bottom: 12px; }
+  .reel-hook p:first-child { font-size: 11px; font-weight: 600; color: #5a4400; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .reel-hook p:last-child { font-size: 14px; color: #3a2800; }
+  .reel-scene { border-left: 3px solid #F5C842; padding: 8px 14px; margin-bottom: 8px; background: #FAFAF5; border-radius: 0 8px 8px 0; }
+  .scene-header { display: flex; justify-content: space-between; margin-bottom: 4px; }
+  .scene-num { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+  .scene-dur { font-size: 11px; color: #aaa; }
+  .scene-visual { font-size: 12px; color: #888; margin-bottom: 3px; }
+  .scene-overlay { font-size: 12px; font-weight: 500; color: #1a1a1a; margin-bottom: 3px; }
+  .scene-vo { font-size: 12px; color: #888; font-style: italic; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+  .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
+  .loading { opacity: 0.5; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .pulsing { animation: pulse 1.2s ease-in-out infinite; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="logo">🙂</div>
+    <div>
+      <h1>Positivly</h1>
+      <p>Social media content generator</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="section-label">Content type</p>
+    <div class="btn-group">
+      <button class="tab-btn active" onclick="setType('news',this)">Good news</button>
+      <button class="tab-btn" onclick="setType('affirmation',this)">Affirmation</button>
+      <button class="tab-btn" onclick="setType('quote',this)">Quote</button>
+      <button class="tab-btn" onclick="setType('fact',this)">Positive fact</button>
+    </div>
+
+    <p class="section-label">Topic or theme (optional)</p>
+    <input type="text" id="topic" placeholder="e.g. nature, science, kindness, animals..." />
+
+    <p class="section-label">Platforms</p>
+    <div class="btn-group">
+      <button class="platform-btn active" onclick="togglePlatform('instagram',this)">📷 Instagram</button>
+      <button class="platform-btn active" onclick="togglePlatform('twitter',this)">𝕏 Twitter</button>
+      <button class="platform-btn active" onclick="togglePlatform('facebook',this)">f Facebook</button>
+    </div>
+
+    <p class="section-label">Also generate</p>
+    <div class="checkbox-group">
+      <label><input type="checkbox" id="gen-image" checked> Image card</label>
+      <label><input type="checkbox" id="gen-reel" checked> Reel script</label>
+    </div>
+
+    <button class="gen-btn" id="gen-btn" onclick="generate()">✨ Generate content</button>
+    <p class="error" id="error-msg"></p>
+  </div>
+
+  <div class="output" id="output">
+
+    <div class="card" id="captions-card">
+      <div class="card-header">
+        <p class="section-label" style="margin:0;">Captions</p>
+        <span class="pill" id="type-pill" style="background:#FEF9C3;color:#854F0B;">Good news</span>
+      </div>
+      <div id="ig-block" class="caption-block">
+        <div class="caption-header">
+          <span class="caption-label">📷 Instagram</span>
+          <button class="copy-btn" onclick="copyField('ig-caption',this)">Copy</button>
+        </div>
+        <textarea id="ig-caption" rows="5" readonly></textarea>
+      </div>
+      <div id="tw-block" class="caption-block">
+        <div class="caption-header">
+          <span class="caption-label">𝕏 Twitter / X</span>
+          <button class="copy-btn" onclick="copyField('tw-caption',this)">Copy</button>
+        </div>
+        <textarea id="tw-caption" rows="3" readonly></textarea>
+      </div>
+      <div id="fb-block" class="caption-block">
+        <div class="caption-header">
+          <span class="caption-label">f Facebook</span>
+          <button class="copy-btn" onclick="copyField('fb-caption',this)">Copy</button>
+        </div>
+        <textarea id="fb-caption" rows="5" readonly></textarea>
+      </div>
+      <hr class="divider">
+      <p class="section-label">Hashtags</p>
+      <div class="hashtag-area" id="hashtag-display"></div>
+      <textarea id="hashtag-raw" style="display:none;"></textarea>
+      <button class="copy-btn" onclick="copyField('hashtag-raw',this)" style="margin-top:8px;">Copy all hashtags</button>
+    </div>
+
+    <div class="card" id="image-card">
+      <div class="card-header">
+        <p class="section-label" style="margin:0;">Image card</p>
+        <button class="copy-btn" onclick="downloadCanvas()">⬇ Download PNG</button>
+      </div>
+      <canvas id="img-canvas"></canvas>
+    </div>
+
+    <div class="card" id="reel-card">
+      <p class="section-label">Reel script & storyboard</p>
+      <div id="reel-content"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  const PROXY = 'https://positivly-proxy-production.up.railway.app';
+  let currentType = 'news';
+  let platforms = new Set(['instagram','twitter','facebook']);
+
+  const typeLabels = { news:'Good news', affirmation:'Affirmation', quote:'Quote', fact:'Positive fact' };
+  const pillColors = {
+    news: {bg:'#FEF9C3',color:'#854F0B'},
+    affirmation: {bg:'#E1F5EE',color:'#0F6E56'},
+    quote: {bg:'#EEEDFE',color:'#3C3489'},
+    fact: {bg:'#FAECE7',color:'#993C1D'}
+  };
+  const typeInstructions = {
+    news: 'a positive uplifting real-world style news story (plausible — science, community, environment, medicine, animals)',
+    affirmation: 'a warm grounded personal affirmation (avoid clichés — make it feel real and specific, not like a poster)',
+    quote: 'an inspirational quote attributed to a real historical figure or well-known person',
+    fact: 'a surprising delightful positive fact about the world (nature, science, human kindness, animals)'
+  };
+
+  function setType(type, btn) {
+    currentType = type;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function togglePlatform(p, btn) {
+    if (platforms.has(p) && platforms.size === 1) return;
+    if (platforms.has(p)) { platforms.delete(p); btn.classList.remove('active'); }
+    else { platforms.add(p); btn.classList.add('active'); }
+  }
+
+  function copyField(id, btn) {
+    const el = document.getElementById(id);
+    navigator.clipboard.writeText(el.value || el.innerText).then(() => {
+      if (btn) { btn.textContent = 'Copied!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = id === 'hashtag-raw' ? 'Copy all hashtags' : 'Copy'; btn.classList.remove('copied'); }, 1500); }
+    }).catch(() => {});
+  }
+
+  function downloadCanvas() {
+    const canvas = document.getElementById('img-canvas');
+    const a = document.createElement('a');
+    a.download = 'positivly-post.png';
+    a.href = canvas.toDataURL();
+    a.click();
+  }
+
+  async function generate() {
+    const errEl = document.getElementById('error-msg');
+    errEl.style.display = 'none';
+    const btn = document.getElementById('gen-btn');
+    btn.disabled = true;
+    btn.textContent = 'Generating...';
+    btn.classList.add('pulsing');
+
+    const topic = document.getElementById('topic').value.trim();
+    const genImage = document.getElementById('gen-image').checked;
+    const genReel = document.getElementById('gen-reel').checked;
+
+    document.getElementById('output').style.display = 'block';
+
+    const pill = document.getElementById('type-pill');
+    pill.textContent = typeLabels[currentType];
+    pill.style.background = pillColors[currentType].bg;
+    pill.style.color = pillColors[currentType].color;
+
+    document.getElementById('ig-block').style.display = platforms.has('instagram') ? 'block' : 'none';
+    document.getElementById('tw-block').style.display = platforms.has('twitter') ? 'block' : 'none';
+    document.getElementById('fb-block').style.display = platforms.has('facebook') ? 'block' : 'none';
+    document.getElementById('image-card').style.display = genImage ? 'block' : 'none';
+    document.getElementById('reel-card').style.display = genReel ? 'block' : 'none';
+
+    ['ig-caption','tw-caption','fb-caption'].forEach(id => { document.getElementById(id).value = 'Writing...'; });
+    document.getElementById('hashtag-display').innerHTML = '<span style="color:#aaa;font-size:13px;">Finding hashtags...</span>';
+    if (genReel) document.getElementById('reel-content').innerHTML = '<p style="color:#aaa;font-size:13px;">Building reel script...</p>';
+
+    const prompt = `You are the social media manager for "Positivly" — an app for spreading good vibes, positive news, affirmations, and uplifting content. Brand voice: warm, grounded, real — NOT cheesy or clichéd. Think optimistic friend, not motivational poster.
+
+Generate content for: ${typeInstructions[currentType]}${topic ? `. Theme: ${topic}` : ''}.
+
+Return ONLY valid JSON, no markdown, no backticks:
+{
+  "instagram": "caption 150-220 chars, 2-3 emojis at end",
+  "twitter": "post max 240 chars, punchy, 1-2 emojis",
+  "facebook": "post 180-280 chars, warm and conversational",
+  "hashtags": ["8to12","hashtags","no","hash","symbol"],
+  "image_text": "max 10 words for image card",
+  "image_subtext": "max 8 word supporting line",
+  "image_style": "yellow_bold or white_clean or dark_warm or coral_pop",
+  "reel_hook": "3 second spoken hook line",
+  "reel_scenes": [
+    {"scene":1,"duration":"3s","visual":"on screen","text_overlay":"text","voiceover":"spoken"},
+    {"scene":2,"duration":"4s","visual":"on screen","text_overlay":"text","voiceover":"spoken"},
+    {"scene":3,"duration":"4s","visual":"on screen","text_overlay":"text","voiceover":"spoken"},
+    {"scene":4,"duration":"4s","visual":"on screen","text_overlay":"text","voiceover":"spoken"},
+    {"scene":5,"duration":"5s","visual":"CTA with Positivly branding","text_overlay":"Download Positivly — good vibes only","voiceover":"Find more on Positivly."}
+  ]
+}`;
+
+    try {
+      const res = await fetch(PROXY, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 1200,
+          temperature: 0.85,
+          messages: [
+            { role: 'system', content: 'You are a creative social media manager. Respond with valid JSON only — no markdown, no backticks.' },
+            { role: 'user', content: prompt }
+          ]
+        })
+      });
+
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `Error ${res.status}`); }
+
+      const data = await res.json();
+      const result = JSON.parse(data.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
+
+      document.getElementById('ig-caption').value = result.instagram || '';
+      document.getElementById('tw-caption').value = result.twitter || '';
+      document.getElementById('fb-caption').value = result.facebook || '';
+
+      const tags = (result.hashtags||[]).map(h=>`#${h}`);
+      document.getElementById('hashtag-display').innerHTML = tags.map(t=>`<span class="hashtag">${t}</span>`).join('');
+      document.getElementById('hashtag-raw').value = tags.join(' ');
+
+      if (genImage) drawCard(result);
+      if (genReel) drawReel(result);
+
+    } catch(e) {
+      errEl.textContent = `Error: ${e.message}`;
+      errEl.style.display = 'block';
+      ['ig-caption','tw-caption','fb-caption'].forEach(id => { document.getElementById(id).value = ''; });
+    }
+
+    btn.disabled = false;
+    btn.textContent = '✨ Generate content';
+    btn.classList.remove('pulsing');
+  }
+
+  function drawCard(result) {
+    const canvas = document.getElementById('img-canvas');
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width = 1080;
+    const H = canvas.height = 1080;
+    const styles = {
+      yellow_bold: {bg:'#F5C842',text:'#3a2800',sub:'#6a4800',circle:'rgba(255,255,255,0.1)'},
+      white_clean: {bg:'#ffffff',text:'#1a1a1a',sub:'#555555',circle:'rgba(245,200,66,0.15)'},
+      dark_warm:   {bg:'#1a1200',text:'#F5C842',sub:'#c8a030',circle:'rgba(245,200,66,0.07)'},
+      coral_pop:   {bg:'#FF6B4A',text:'#ffffff',sub:'rgba(255,255,255,0.8)',circle:'rgba(255,255,255,0.1)'}
+    };
+    const s = styles[result.image_style] || styles.yellow_bold;
+    ctx.fillStyle = s.bg; ctx.fillRect(0,0,W,H);
+    ctx.fillStyle = s.circle;
+    ctx.beginPath(); ctx.arc(W*.88,H*.12,320,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(W*.08,H*.88,220,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = s.sub; ctx.font='500 32px -apple-system,sans-serif'; ctx.fillText('positivly',72,96);
+    ctx.font='400 22px -apple-system,sans-serif'; ctx.fillText(typeLabels[currentType].toUpperCase(),72,138);
+    const words=(result.image_text||'').toUpperCase().split(' ');
+    const lines=[]; let line='';
+    ctx.font='500 96px -apple-system,sans-serif';
+    for(const w of words){const t=line?line+' '+w:w;if(ctx.measureText(t).width>W-144){lines.push(line);line=w;}else line=t;}
+    if(line)lines.push(line);
+    let sy=Math.max(260,(H-lines.length*114)/2);
+    ctx.fillStyle=s.text;
+    for(const l of lines){ctx.fillText(l,72,sy);sy+=114;}
+    ctx.fillStyle=s.sub; ctx.font='400 38px -apple-system,sans-serif';
+    const sw=(result.image_subtext||'').split(' '); let sl='',subY=sy+40;
+    for(const w of sw){const t=sl?sl+' '+w:w;if(ctx.measureText(t).width>W-144){ctx.fillText(sl,72,subY);sl=w;subY+=52;}else sl=t;}
+    if(sl)ctx.fillText(sl,72,subY);
+    ctx.fillStyle=s.text; ctx.fillRect(72,H-110,100,5);
+    ctx.fillStyle=s.sub; ctx.font='400 26px -apple-system,sans-serif'; ctx.fillText('positivly.app',72,H-60);
+  }
+
+  function drawReel(result) {
+    const c=document.getElementById('reel-content');
+    let html=`<div class="reel-hook"><p>Hook (0–3s)</p><p>"${result.reel_hook||''}"</p></div>`;
+    for(const sc of result.reel_scenes||[]){
+      html+=`<div class="reel-scene">
+        <div class="scene-header"><span class="scene-num">Scene ${sc.scene}</span><span class="scene-dur">${sc.duration}</span></div>
+        <p class="scene-visual">👁 ${sc.visual}</p>
+        <p class="scene-overlay">"${sc.text_overlay}"</p>
+        <p class="scene-vo">${sc.voiceover}</p>
+      </div>`;
+    }
+    c.innerHTML=html;
+  }
+</script>
+</body>
+</html>
