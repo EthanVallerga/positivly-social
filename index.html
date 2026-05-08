@@ -231,7 +231,7 @@ const PROXY = 'https://positivly-proxy-production.up.railway.app';
 const LOGO_URL = 'https://EthanVallerga.github.io/positivly-social/positivly_logo.png';
 let currentType = 'news';
 let platforms = new Set(['instagram','twitter','facebook','youtube']);
-let usedTopics = [];
+let usedTopics = JSON.parse(localStorage.getItem('positivly_used_topics') || '[]');
 let generatedImageUrl = null;
 let logoImage = null;
 
@@ -412,9 +412,10 @@ Return ONLY valid JSON, no markdown, no backticks:
     const result = JSON.parse(data.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
 
     if (result.core_subject) {
-      usedTopics.push(result.core_subject);
-      if (usedTopics.length > 20) usedTopics.shift();
-    }
+  	usedTopics.push(result.core_subject);
+ 	if (usedTopics.length > 20) usedTopics.shift();
+	 localStorage.setItem('positivly_used_topics', JSON.stringify(usedTopics));
+	}
 
     if (document.getElementById('ig-caption')) document.getElementById('ig-caption').value = result.ig_caption || '';
     if (document.getElementById('tw-caption')) document.getElementById('tw-caption').value = result.tw_caption || '';
@@ -448,6 +449,7 @@ Return ONLY valid JSON, no markdown, no backticks:
 }
 
 async function generateMedia(result, genImage, genVideo) {
+
   const panels = document.getElementById('media-panels');
   const tabs = document.getElementById('media-tabs');
   panels.innerHTML = `<div class="media-loading"><div class="spinner"></div><span>Generating AI image...</span></div>`;
@@ -456,7 +458,7 @@ async function generateMedia(result, genImage, genVideo) {
     result.image_prompt + ', photorealistic, vibrant colors, stunning composition, high detail, 8K'
   );
   const seed = Math.floor(Math.random() * 99999);
-  const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=1080&height=1080&nologo=true&seed=${seed}`;
+  const imageUrl = `https://positivly-proxy-production.up.railway.app/image?prompt=${encodedPrompt}&seed=${seed}`;
 
   const img = await loadImage(imageUrl);
   if (!img) {
