@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://js.puter.com/v2/"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Positivly — Content Generator</title>
@@ -456,27 +457,26 @@ const result = JSON.parse(sanitized);
 }
 
 async function generateMedia(result, genImage, genVideo) {
-
   const panels = document.getElementById('media-panels');
   const tabs = document.getElementById('media-tabs');
   panels.innerHTML = `<div class="media-loading"><div class="spinner"></div><span>Generating AI image...</span></div>`;
 
-  const encodedPrompt = encodeURIComponent(
-    result.image_prompt + ', photorealistic, vibrant colors, stunning composition, high detail, 8K'
-  );
-  const seed = Math.floor(Math.random() * 99999);
-  const imageUrl = `https://positivly-proxy-production.up.railway.app/image?prompt=${encodedPrompt}&seed=${seed}`;
+  let img;
+  try {
+    const fullPrompt = result.image_prompt + ', photorealistic, vibrant colors, stunning composition, high detail, 8K';
+    const imgElement = await puter.ai.txt2img(fullPrompt, false, 'black-forest-labs/FLUX.1-schnell');
+    img = await loadImage(imgElement.src);
+  } catch(e) {
+    panels.innerHTML = `<div class="media-loading"><span style="color:#F4836A;">Image generation failed — try again</span></div>`;
+    return;
+  }
 
-  const img = await loadImage(imageUrl);
   if (!img) {
     panels.innerHTML = `<div class="media-loading"><span style="color:#F4836A;">Image timed out — try again</span></div>`;
     return;
   }
 
-  generatedImageUrl = imageUrl;
-
   const imageCanvas = buildImageCanvas(img, result.image_text, result.image_subtext);
-  const videoCanvas = genVideo ? buildVideoSetup(img, result.image_text, result.image_subtext) : null;
 
   tabs.innerHTML = '';
   panels.innerHTML = '';
@@ -503,7 +503,7 @@ async function generateMedia(result, genImage, genVideo) {
     panels.appendChild(p);
   }
 
-  if (genVideo && videoCanvas) {
+  if (genVideo) {
     const t = document.createElement('button');
     t.className = `media-tab ${genImage ? '' : 'active'}`;
     t.textContent = '🎬 Ken Burns video';
@@ -539,7 +539,6 @@ async function generateMedia(result, genImage, genVideo) {
     p.appendChild(hint2);
 
     panels.appendChild(p);
-
     drawPreviewFrame(img, result.image_text, result.image_subtext, previewCanvas);
   }
 }
