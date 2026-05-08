@@ -409,7 +409,14 @@ Return ONLY valid JSON, no markdown, no backticks:
 
     if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `Error ${res.status}`); }
     const data = await res.json();
-    const result = JSON.parse(data.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
+    const raw = data.choices[0].message.content.trim().replace(/```json|```/g,'').trim();
+	const sanitized = raw.replace(/[\x00-\x1F\x7F]/g, (c) => {
+ 	 if (c === '\n') return '\\n';
+ 	 if (c === '\t') return '\\t';
+ 	 if (c === '\r') return '';
+  	return '';
+	});
+const result = JSON.parse(sanitized);
 
     if (result.core_subject) {
   	usedTopics.push(result.core_subject);
