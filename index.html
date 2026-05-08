@@ -456,7 +456,7 @@ async function generateMedia(result, genImage, genVideo) {
     result.image_prompt + ', photorealistic, vibrant colors, stunning composition, high detail, 8K'
   );
   const seed = Math.floor(Math.random() * 99999);
-  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1080&height=1080&nologo=true&seed=${seed}`;
+  const imageUrl = `https://pollinations.ai/p/${encodedPrompt}?width=1080&height=1080&nologo=true&seed=${seed}`;
 
   const img = await loadImage(imageUrl);
   if (!img) {
