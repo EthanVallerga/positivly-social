@@ -7,9 +7,9 @@
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #FFF5F2; min-height: 100vh; padding: 2rem 1rem; }
-  .container { max-width: 680px; margin: 0 auto; }
+  .container { max-width: 720px; margin: 0 auto; }
   .header { display: flex; align-items: center; gap: 14px; margin-bottom: 2rem; }
-  .logo img { width: 52px; height: 52px; border-radius: 14px; }
+  .header img { width: 52px; height: 52px; border-radius: 14px; }
   .header h1 { font-size: 24px; font-weight: 700; color: #1a1a1a; }
   .header p { font-size: 13px; color: #aaa; margin-top: 2px; }
   .card { background: white; border-radius: 18px; padding: 1.5rem; margin-bottom: 1rem; border: 1px solid #f5e8e4; }
@@ -22,33 +22,42 @@
   .platform-btn.active { background: #FFF0ED; border-color: #F4836A; color: #c05540; font-weight: 600; }
   input[type="text"] { width: 100%; padding: 11px 14px; border: 1.5px solid #eee; border-radius: 10px; font-size: 14px; margin-bottom: 1.25rem; outline: none; font-family: inherit; background: #fafafa; transition: border 0.15s; }
   input[type="text"]:focus { border-color: #F4836A; background: white; }
-  .checkbox-group { display: flex; gap: 20px; margin-bottom: 1.25rem; }
+  .checkbox-group { display: flex; gap: 20px; margin-bottom: 1.25rem; flex-wrap: wrap; }
   .checkbox-group label { font-size: 13px; color: #444; display: flex; align-items: center; gap: 7px; cursor: pointer; }
-  .gen-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: #F4836A; color: white; border: none; border-radius: 12px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.2px; }
+  .gen-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: #F4836A; color: white; border: none; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
   .gen-btn:hover { background: #e06b52; }
   .gen-btn:disabled { opacity: 0.6; cursor: not-allowed; }
   .error { color: #c0392b; font-size: 13px; margin-top: 10px; display: none; padding: 10px 14px; background: #fdf0f0; border-radius: 8px; }
   .output { display: none; }
-  .caption-block { margin-bottom: 1.25rem; }
+  .platform-section { margin-bottom: 1.5rem; }
+  .platform-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #f5f5f5; }
+  .platform-icon { font-size: 16px; }
+  .platform-name { font-size: 14px; font-weight: 700; color: #1a1a1a; }
+  .platform-tip { font-size: 11px; color: #bbb; margin-left: auto; }
   .caption-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-  .caption-label { font-size: 13px; font-weight: 600; color: #555; }
+  .caption-label { font-size: 12px; font-weight: 600; color: #888; }
   .copy-btn { font-size: 12px; padding: 5px 12px; border-radius: 6px; border: 1.5px solid #eee; background: white; cursor: pointer; color: #888; transition: all 0.15s; }
   .copy-btn:hover { background: #FFF0ED; border-color: #F4836A; color: #F4836A; }
   .copy-btn.copied { background: #E1F5EE; border-color: #0F6E56; color: #0F6E56; }
-  textarea { width: 100%; padding: 10px 14px; border: 1.5px solid #f0f0f0; border-radius: 10px; font-size: 13px; line-height: 1.6; background: #fafafa; color: #1a1a1a; resize: none; font-family: inherit; }
+  textarea { width: 100%; padding: 10px 14px; border: 1.5px solid #f0f0f0; border-radius: 10px; font-size: 13px; line-height: 1.6; background: #fafafa; color: #1a1a1a; resize: vertical; font-family: inherit; }
   .divider { border: none; border-top: 1px solid #f5f5f5; margin: 1.25rem 0; }
-  .hashtag-area { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
-  .hashtag { background: #FFF0ED; color: #c05540; padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .hashtag-section { margin-top: 8px; }
+  .hashtag-area { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .hashtag { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+  .hashtag.ig { background: #FFF0ED; color: #c05540; }
+  .hashtag.tw { background: #E8F4FD; color: #1a6fa0; }
+  .hashtag.fb { background: #E8EEF8; color: #2d4a8a; }
   .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; }
   .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
-  .image-container { position: relative; width: 100%; border-radius: 14px; overflow: hidden; background: #f5f5f5; min-height: 200px; }
-  .image-container img { width: 100%; display: block; border-radius: 14px; }
-  .image-overlay { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.75)); padding: 2rem 1.5rem 1.5rem; border-radius: 0 0 14px 14px; }
-  .image-overlay .overlay-logo { width: 36px; height: 36px; border-radius: 10px; margin-bottom: 8px; }
-  .image-overlay .overlay-text { font-size: 22px; font-weight: 800; color: white; line-height: 1.3; margin-bottom: 4px; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-  .image-overlay .overlay-sub { font-size: 14px; color: rgba(255,255,255,0.85); }
-  .image-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 300px; color: #aaa; gap: 12px; }
-  .image-loading .spinner { width: 36px; height: 36px; border: 3px solid #f0e8e4; border-top-color: #F4836A; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .media-tabs { display: flex; gap: 8px; margin-bottom: 1rem; }
+  .media-tab { font-size: 12px; padding: 5px 14px; border-radius: 8px; border: 1.5px solid #eee; background: white; cursor: pointer; color: #888; transition: all 0.15s; }
+  .media-tab.active { background: #F4836A; color: white; border-color: #F4836A; font-weight: 600; }
+  .media-panel { display: none; }
+  .media-panel.active { display: block; }
+  canvas { width: 100%; border-radius: 14px; display: block; cursor: pointer; }
+  canvas:hover { opacity: 0.95; }
+  .media-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 280px; color: #bbb; gap: 12px; background: #fafafa; border-radius: 14px; border: 1.5px solid #f0f0f0; }
+  .spinner { width: 36px; height: 36px; border: 3px solid #f0e8e4; border-top-color: #F4836A; border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .reel-hook { background: linear-gradient(135deg, #F4836A, #f0a090); border-radius: 12px; padding: 14px 16px; margin-bottom: 12px; }
   .reel-hook .hook-label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.8); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; }
@@ -62,14 +71,17 @@
   .scene-vo { font-size: 12px; color: #888; font-style: italic; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
   .pulsing { animation: pulse 1.2s ease-in-out infinite; }
-  .source-tag { font-size: 11px; color: #bbb; margin-top: 6px; }
+  .dl-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .progress-bar { height: 4px; background: #f0e8e4; border-radius: 4px; margin-top: 8px; overflow: hidden; display: none; }
+  .progress-fill { height: 100%; background: #F4836A; border-radius: 4px; transition: width 0.3s; }
+  .cta-note { font-size: 11px; color: #bbb; margin-top: 6px; font-style: italic; }
 </style>
 </head>
 <body>
 <div class="container">
 
   <div class="header">
-    <div class="logo"><img src="https://i.imgur.com/placeholder.png" id="logo-img" onerror="this.style.display='none'" alt="Positivly"></div>
+    <img src="https://EthanVallerga.github.io/positivly-social/positivly_logo.png" alt="Positivly" onerror="this.style.display='none'">
     <div>
       <h1>Positivly</h1>
       <p>Social media content generator</p>
@@ -86,18 +98,20 @@
     </div>
 
     <p class="section-label">Topic or theme (optional)</p>
-    <input type="text" id="topic" placeholder="e.g. nature, science, kindness, animals..." />
+    <input type="text" id="topic" placeholder="e.g. ocean, space, kindness, animals, science..." />
 
     <p class="section-label">Platforms</p>
     <div class="btn-group">
       <button class="platform-btn active" onclick="togglePlatform('instagram',this)">📷 Instagram</button>
-      <button class="platform-btn active" onclick="togglePlatform('twitter',this)">𝕏 Twitter</button>
+      <button class="platform-btn active" onclick="togglePlatform('twitter',this)">𝕏 Twitter / X</button>
       <button class="platform-btn active" onclick="togglePlatform('facebook',this)">f Facebook</button>
+      <button class="platform-btn active" onclick="togglePlatform('youtube',this)">▶ YouTube Shorts</button>
     </div>
 
     <p class="section-label">Also generate</p>
     <div class="checkbox-group">
       <label><input type="checkbox" id="gen-image" checked> AI image card</label>
+      <label><input type="checkbox" id="gen-video" checked> Ken Burns video</label>
       <label><input type="checkbox" id="gen-reel" checked> Reel script</label>
     </div>
 
@@ -107,54 +121,105 @@
 
   <div class="output" id="output">
 
+    <!-- Captions per platform -->
     <div class="card" id="captions-card">
       <div class="card-header">
-        <p class="section-label" style="margin:0;">Captions</p>
+        <p class="section-label" style="margin:0;">Platform captions</p>
         <span class="pill" id="type-pill" style="background:#FFF0ED;color:#c05540;">Good news</span>
       </div>
-      <div id="ig-block" class="caption-block">
-        <div class="caption-header">
-          <span class="caption-label">📷 Instagram</span>
-          <button class="copy-btn" onclick="copyField('ig-caption',this)">Copy</button>
+
+      <div id="ig-section" class="platform-section">
+        <div class="platform-header">
+          <span class="platform-icon">📷</span>
+          <span class="platform-name">Instagram</span>
+          <span class="platform-tip">Algorithm loves saves & shares — CTA included</span>
         </div>
-        <textarea id="ig-caption" rows="5" readonly></textarea>
-      </div>
-      <div id="tw-block" class="caption-block">
-        <div class="caption-header">
-          <span class="caption-label">𝕏 Twitter / X</span>
-          <button class="copy-btn" onclick="copyField('tw-caption',this)">Copy</button>
+        <textarea id="ig-caption" rows="8" readonly></textarea>
+        <div class="hashtag-section">
+          <div class="hashtag-area" id="ig-hashtags"></div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="copy-btn" onclick="copyField('ig-caption',this)">Copy caption</button>
+            <button class="copy-btn" onclick="copyHashtags('ig',this)">Copy hashtags</button>
+            <textarea id="ig-hash-raw" style="display:none;"></textarea>
+          </div>
+          <p class="cta-note" id="ig-cta-note"></p>
         </div>
-        <textarea id="tw-caption" rows="3" readonly></textarea>
       </div>
-      <div id="fb-block" class="caption-block">
-        <div class="caption-header">
-          <span class="caption-label">f Facebook</span>
-          <button class="copy-btn" onclick="copyField('fb-caption',this)">Copy</button>
+
+      <div id="tw-section" class="platform-section" style="display:none;">
+        <div class="platform-header">
+          <span class="platform-icon">𝕏</span>
+          <span class="platform-name">Twitter / X</span>
+          <span class="platform-tip">Replies & retweets boost reach</span>
         </div>
-        <textarea id="fb-caption" rows="5" readonly></textarea>
+        <textarea id="tw-caption" rows="4" readonly></textarea>
+        <div class="hashtag-section">
+          <div class="hashtag-area" id="tw-hashtags"></div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="copy-btn" onclick="copyField('tw-caption',this)">Copy post</button>
+            <button class="copy-btn" onclick="copyHashtags('tw',this)">Copy hashtags</button>
+            <textarea id="tw-hash-raw" style="display:none;"></textarea>
+          </div>
+        </div>
       </div>
-      <hr class="divider">
-      <p class="section-label">Hashtags</p>
-      <div class="hashtag-area" id="hashtag-display"></div>
-      <textarea id="hashtag-raw" style="display:none;"></textarea>
-      <button class="copy-btn" onclick="copyField('hashtag-raw',this)" style="margin-top:8px;">Copy all hashtags</button>
+
+      <div id="fb-section" class="platform-section" style="display:none;">
+        <div class="platform-header">
+          <span class="platform-icon">f</span>
+          <span class="platform-name">Facebook</span>
+          <span class="platform-tip">Longer posts perform well — comments drive reach</span>
+        </div>
+        <textarea id="fb-caption" rows="10" readonly></textarea>
+        <div class="hashtag-section">
+          <div class="hashtag-area" id="fb-hashtags"></div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="copy-btn" onclick="copyField('fb-caption',this)">Copy caption</button>
+            <button class="copy-btn" onclick="copyHashtags('fb',this)">Copy hashtags</button>
+            <textarea id="fb-hash-raw" style="display:none;"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div id="yt-section" class="platform-section" style="display:none;">
+        <div class="platform-header">
+          <span class="platform-icon">▶</span>
+          <span class="platform-name">YouTube Shorts</span>
+          <span class="platform-tip">Keywords in title & description boost discovery</span>
+        </div>
+        <div style="margin-bottom:8px;">
+          <p class="caption-label" style="font-size:12px;font-weight:700;color:#888;margin-bottom:4px;">Title</p>
+          <textarea id="yt-title" rows="2" readonly></textarea>
+        </div>
+        <div>
+          <p class="caption-label" style="font-size:12px;font-weight:700;color:#888;margin-bottom:4px;">Description</p>
+          <textarea id="yt-desc" rows="6" readonly></textarea>
+        </div>
+        <div class="hashtag-section">
+          <div class="hashtag-area" id="yt-hashtags"></div>
+          <div style="display:flex;gap:8px;margin-top:6px;">
+            <button class="copy-btn" onclick="copyField('yt-title',this)">Copy title</button>
+            <button class="copy-btn" onclick="copyField('yt-desc',this)">Copy description</button>
+            <button class="copy-btn" onclick="copyHashtags('yt',this)">Copy hashtags</button>
+            <textarea id="yt-hash-raw" style="display:none;"></textarea>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="card" id="image-card">
+    <!-- Media -->
+    <div class="card" id="media-card">
       <div class="card-header">
-        <p class="section-label" style="margin:0;">AI image card</p>
-        <button class="copy-btn" id="dl-btn" onclick="downloadImage()" style="display:none;">⬇ Download</button>
+        <p class="section-label" style="margin:0;">Generated media</p>
+        <div class="dl-row" id="dl-row"></div>
       </div>
-      <div class="image-container" id="image-container">
-        <div class="image-loading" id="image-loading">
-          <div class="spinner"></div>
-          <span>Generating image...</span>
-        </div>
-      </div>
+      <div class="media-tabs" id="media-tabs"></div>
+      <div id="media-panels"></div>
+      <div class="progress-bar" id="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
     </div>
 
+    <!-- Reel script -->
     <div class="card" id="reel-card">
-      <p class="section-label">Reel script & storyboard</p>
+      <p class="section-label">Reel / Shorts script</p>
       <div id="reel-content"></div>
     </div>
 
@@ -162,298 +227,550 @@
 </div>
 
 <script>
-  const PROXY = 'https://positivly-proxy-production.up.railway.app';
-  const LOGO_URL = 'https://EthanVallerga.github.io/positivly-social/positivly_logo.png';
-  let currentType = 'news';
-  let platforms = new Set(['instagram','twitter','facebook']);
-  let usedTopics = [];
-  let currentImageUrl = null;
+const PROXY = 'https://positivly-proxy-production.up.railway.app';
+const LOGO_URL = 'https://EthanVallerga.github.io/positivly-social/positivly_logo.png';
+let currentType = 'news';
+let platforms = new Set(['instagram','twitter','facebook','youtube']);
+let usedTopics = [];
+let generatedImageUrl = null;
+let logoImage = null;
 
-  const typeLabels = { news:'Good news', affirmation:'Affirmation', quote:'Quote', fact:'Positive fact' };
-  const pillColors = {
-    news: {bg:'#FFF0ED',color:'#c05540'},
-    affirmation: {bg:'#E1F5EE',color:'#0F6E56'},
-    quote: {bg:'#EEEDFE',color:'#3C3489'},
-    fact: {bg:'#FEF9C3',color:'#854F0B'}
-  };
+const typeLabels = { news:'Good news', affirmation:'Affirmation', quote:'Quote', fact:'Positive fact' };
+const pillColors = {
+  news: {bg:'#FFF0ED',color:'#c05540'},
+  affirmation: {bg:'#E1F5EE',color:'#0F6E56'},
+  quote: {bg:'#EEEDFE',color:'#3C3489'},
+  fact: {bg:'#FEF9C3',color:'#854F0B'}
+};
 
-  const typeInstructions = {
-    news: `a REAL, specific, recent positive news story with actual place names, organization names, and where appropriate real people's names. Examples of the kind of specificity wanted: "Researchers at Johns Hopkins University in Baltimore have developed...", "The small town of Brumby, Nebraska celebrated..." — make it feel like a real news story, not vague feel-good content. Cover science breakthroughs, community wins, environmental recovery, medical advances, animal rescues, acts of kindness at scale.`,
-    affirmation: `a warm, grounded affirmation written in SECOND PERSON using "you" and "your" — NOT "I" or "my". Make it specific and real, not vague poster-speak. Bad example: "I am enough." Good example: "You've already handled harder days than this one — and you came out the other side." Avoid clichés.`,
-    quote: `an inspiring quote from a real, named historical figure or well-known person. Include their full name and a brief description of who they are. Make sure the quote is genuinely attributed to them.`,
-    fact: `a surprising, specific, joyful fact about the world — nature, science, animals, human history, psychology. Include real numbers, species names, place names where relevant. Make it feel like something you'd want to immediately share with a friend.`
-  };
+const typeInstructions = {
+  news: `a REAL, specific, recent positive news story with exact place names, organization names, and real people's names where appropriate. Be journalistic and precise — e.g. "Researchers at the University of Queensland in Brisbane, led by Dr. Sarah Chen, have successfully..." or "The coastal town of Monterey, California celebrated today as...". Cover: science breakthroughs, community achievements, environmental recovery, medical advances, animal conservation wins, acts of large-scale kindness. It must feel like a real news wire story.`,
+  affirmation: `a warm, specific, grounded affirmation written in SECOND PERSON — always use "you" and "your", NEVER "I" or "my". Avoid all clichés and poster-speak. Make it feel like something a wise, caring friend would say directly to you. Bad: "You are enough." Good: "You've already navigated harder days than this one — quietly, without fanfare — and you came out the other side. Today is no different."`,
+  quote: `an inspiring, accurately attributed quote from a real, named historical figure or well-known person. Include their full name and a one-line description of who they are. Only use quotes that are genuinely attributed to them.`,
+  fact: `a surprising, specific, joyful fact with real numbers, species names, place names, and scientific terms where relevant. Make it the kind of thing someone immediately wants to share. E.g. "The axolotl (Ambystoma mexicanum), native to Lake Xochimilco in Mexico City, can fully regenerate its heart, spinal cord, and even parts of its brain — a feat no other vertebrate can match."`
+};
 
-  function setType(type, btn) {
-    currentType = type;
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-  }
+const platformAlgoTips = {
+  instagram: { rows: 8, tip: 'Algorithm loves saves & shares — CTA included' },
+  twitter: { rows: 4, tip: 'Replies & retweets drive reach' },
+  facebook: { rows: 10, tip: 'Longer posts + comments drive reach' },
+  youtube: { rows: 6, tip: 'Keywords in title & description boost discovery' }
+};
 
-  function togglePlatform(p, btn) {
-    if (platforms.has(p) && platforms.size === 1) return;
-    if (platforms.has(p)) { platforms.delete(p); btn.classList.remove('active'); }
-    else { platforms.add(p); btn.classList.add('active'); }
-  }
+function setType(type, btn) {
+  currentType = type;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
 
-  function copyField(id, btn) {
-    const el = document.getElementById(id);
-    navigator.clipboard.writeText(el.value || el.innerText).then(() => {
-      if (btn) {
-        const orig = btn.textContent;
-        btn.textContent = 'Copied!';
-        btn.classList.add('copied');
-        setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
-      }
-    }).catch(()=>{});
-  }
+function togglePlatform(p, btn) {
+  if (platforms.has(p) && platforms.size === 1) return;
+  if (platforms.has(p)) { platforms.delete(p); btn.classList.remove('active'); }
+  else { platforms.add(p); btn.classList.add('active'); }
+}
 
-  function downloadImage() {
-    if (!currentImageUrl) return;
-    const a = document.createElement('a');
-    a.href = currentImageUrl;
-    a.download = 'positivly-post.jpg';
-    a.target = '_blank';
-    a.click();
-  }
-
-  async function generate() {
-    const errEl = document.getElementById('error-msg');
-    errEl.style.display = 'none';
-    const btn = document.getElementById('gen-btn');
-    btn.disabled = true;
-    btn.textContent = 'Generating...';
-    btn.classList.add('pulsing');
-
-    const topic = document.getElementById('topic').value.trim();
-    const genImage = document.getElementById('gen-image').checked;
-    const genReel = document.getElementById('gen-reel').checked;
-
-    document.getElementById('output').style.display = 'block';
-
-    const pill = document.getElementById('type-pill');
-    pill.textContent = typeLabels[currentType];
-    pill.style.background = pillColors[currentType].bg;
-    pill.style.color = pillColors[currentType].color;
-
-    document.getElementById('ig-block').style.display = platforms.has('instagram') ? 'block' : 'none';
-    document.getElementById('tw-block').style.display = platforms.has('twitter') ? 'block' : 'none';
-    document.getElementById('fb-block').style.display = platforms.has('facebook') ? 'block' : 'none';
-    document.getElementById('image-card').style.display = genImage ? 'block' : 'none';
-    document.getElementById('reel-card').style.display = genReel ? 'block' : 'none';
-    document.getElementById('dl-btn').style.display = 'none';
-
-    ['ig-caption','tw-caption','fb-caption'].forEach(id => { document.getElementById(id).value = 'Writing...'; });
-    document.getElementById('hashtag-display').innerHTML = '<span style="color:#ccc;font-size:13px;">Finding hashtags...</span>';
-
-    if (genImage) {
-      document.getElementById('image-container').innerHTML = `<div class="image-loading" id="image-loading"><div class="spinner"></div><span>Generating image...</span></div>`;
+function copyField(id, btn) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  navigator.clipboard.writeText(el.value || el.innerText).then(() => {
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
     }
-    if (genReel) document.getElementById('reel-content').innerHTML = '<p style="color:#ccc;font-size:13px;padding:8px 0;">Building reel script...</p>';
+  }).catch(()=>{});
+}
 
-    const avoidList = usedTopics.length > 0 ? `\n\nIMPORTANT: Do NOT repeat any of these recently used topics/subjects: ${usedTopics.slice(-8).join(', ')}. Generate something completely fresh and different.` : '';
+function copyHashtags(platform, btn) {
+  const raw = document.getElementById(platform + '-hash-raw');
+  if (!raw) return;
+  navigator.clipboard.writeText(raw.value).then(() => {
+    if (btn) {
+      const orig = btn.textContent;
+      btn.textContent = 'Copied!'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }
+  }).catch(()=>{});
+}
 
-    const prompt = `You are the content director for "Positivly" — an app for spreading real, uplifting content. Brand voice: warm, grounded, specific — NOT generic or clichéd.
+function renderHashtags(tags, containerId, rawId, cssClass) {
+  const container = document.getElementById(containerId);
+  const raw = document.getElementById(rawId);
+  if (!container || !raw) return;
+  const withHash = tags.map(h => h.startsWith('#') ? h : '#' + h);
+  container.innerHTML = withHash.map(t => `<span class="hashtag ${cssClass}">${t}</span>`).join('');
+  raw.value = withHash.join(' ');
+}
 
-Generate content for: ${typeInstructions[currentType]}${topic ? `\n\nUser-requested theme: ${topic}` : ''}${avoidList}
+function preloadLogo() {
+  return new Promise(resolve => {
+    if (logoImage) { resolve(logoImage); return; }
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => { logoImage = img; resolve(img); };
+    img.onerror = () => resolve(null);
+    img.src = LOGO_URL;
+  });
+}
 
-Return ONLY valid JSON, no markdown, no backticks, no extra text:
+async function generate() {
+  const errEl = document.getElementById('error-msg');
+  errEl.style.display = 'none';
+  const btn = document.getElementById('gen-btn');
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  btn.classList.add('pulsing');
+
+  const topic = document.getElementById('topic').value.trim();
+  const genImage = document.getElementById('gen-image').checked;
+  const genVideo = document.getElementById('gen-video').checked;
+  const genReel = document.getElementById('gen-reel').checked;
+
+  document.getElementById('output').style.display = 'block';
+  document.getElementById('ig-section').style.display = platforms.has('instagram') ? 'block' : 'none';
+  document.getElementById('tw-section').style.display = platforms.has('twitter') ? 'block' : 'none';
+  document.getElementById('fb-section').style.display = platforms.has('facebook') ? 'block' : 'none';
+  document.getElementById('yt-section').style.display = platforms.has('youtube') ? 'block' : 'none';
+  document.getElementById('media-card').style.display = (genImage || genVideo) ? 'block' : 'none';
+  document.getElementById('reel-card').style.display = genReel ? 'block' : 'none';
+
+  const pill = document.getElementById('type-pill');
+  pill.textContent = typeLabels[currentType];
+  pill.style.background = pillColors[currentType].bg;
+  pill.style.color = pillColors[currentType].color;
+
+  ['ig-caption','tw-caption','fb-caption','yt-title','yt-desc'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = 'Writing...';
+  });
+  ['ig-hashtags','tw-hashtags','fb-hashtags','yt-hashtags'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.innerHTML = '';
+  });
+
+  document.getElementById('media-tabs').innerHTML = '';
+  document.getElementById('media-panels').innerHTML = `<div class="media-loading"><div class="spinner"></div><span>Generating media...</span></div>`;
+  document.getElementById('dl-row').innerHTML = '';
+  if (genReel) document.getElementById('reel-content').innerHTML = '<p style="color:#ccc;font-size:13px;padding:8px 0;">Building script...</p>';
+
+  const avoidList = usedTopics.length > 0
+    ? `\n\nDo NOT repeat any of these recent topics: ${usedTopics.slice(-10).join(', ')}. Generate something completely different.`
+    : '';
+
+  const platformsNeeded = [...platforms];
+
+  const prompt = `You are the content director for "Positivly" — an app for real, uplifting content. Brand voice: warm, grounded, specific, NOT generic or clichéd.
+
+Generate content for: ${typeInstructions[currentType]}${topic ? `\n\nUser theme: ${topic}` : ''}${avoidList}
+
+PLATFORM OPTIMIZATION RULES:
+- Instagram: 150-300 words. Hook in first line (no "more" cutoff). Use line breaks for readability. End with a question CTA to drive comments (e.g. "What's the most amazing thing you've learned this week? Drop it below 👇"). 3-5 emojis throughout. 25-30 laser-targeted hashtags mixing popular (#nature, 10M+), medium (#oceanlife, 500K), and niche (#marinebiologylovers, 50K) tags.
+- Twitter/X: Max 240 chars. Punchy opening. End with a reply hook (e.g. "Reply with a 🌊 if this blew your mind"). 1-2 hashtags only — X algorithm penalizes more. No fluff.
+- Facebook: 200-400 words. Conversational, storytelling tone. Share a bit of context/background. End with open-ended question to drive comments (e.g. "Have you ever seen something in nature that stopped you in your tracks? Tell us in the comments"). 3-5 hashtags max — Facebook algorithm disfavors hashtag stuffing.
+- YouTube Shorts: SEO-optimized title (max 60 chars, include the key search term naturally). Description: 150-200 words with keywords naturally woven in. Call to subscribe. 10-15 hashtags mixing broad and specific.
+
+Return ONLY valid JSON, no markdown, no backticks:
 {
-  "core_subject": "2-4 word summary of the specific topic (used to avoid repetition)",
-  "instagram": "caption 150-220 chars, warm and engaging, 2-3 relevant emojis at end",
-  "twitter": "post max 240 chars, punchy and shareable, 1-2 emojis max",
-  "facebook": "post 180-280 chars, conversational and warm, feels like a friend sharing something",
-  "hashtags": ["10to12","relevant","specific","hashtags","no","hash","symbol"],
-  "image_prompt": "A vivid, photorealistic image generation prompt describing a stunning, eye-catching photograph that perfectly represents the content. Be specific about subject, lighting, mood, composition. Example: 'Stunning underwater photograph of a glowing immortal jellyfish Turritopsis dohrnii in deep blue ocean water, bioluminescent, ethereal light rays, macro photography, National Geographic style'",
-  "image_text": "5-8 word punchy headline for image overlay",
-  "image_subtext": "max 6 word supporting line",
-  "reel_hook": "Attention-grabbing 3 second spoken hook — make it surprising or emotional",
+  "core_subject": "3-5 word summary for repetition tracking",
+  "ig_caption": "full Instagram caption with emojis, line breaks, and CTA question",
+  "ig_hashtags": ["25to30","instagram","hashtags","no","hash","symbol"],
+  "tw_caption": "Twitter post max 240 chars with reply CTA",
+  "tw_hashtags": ["1or2","twitter","hashtags"],
+  "fb_caption": "full Facebook post with storytelling and comment CTA question",
+  "fb_hashtags": ["3to5","facebook","hashtags"],
+  "yt_title": "SEO YouTube Shorts title max 60 chars",
+  "yt_desc": "YouTube description 150-200 words with keywords and subscribe CTA",
+  "yt_hashtags": ["10to15","youtube","hashtags"],
+  "image_prompt": "Hyper-specific photorealistic image generation prompt. Must depict EXACTLY the subject of the content — the specific animal species, named location, specific person or event. Include: exact subject, dramatic lighting, camera angle, mood, style (e.g. National Geographic, documentary). Example for immortal jellyfish story: 'Ultra macro underwater photograph of a single Turritopsis dohrnii immortal jellyfish, translucent bell with vivid red core, bioluminescent tentacles trailing in deep blue Pacific Ocean water, ethereal shaft of light from above, National Geographic documentary style, 8K detail'",
+  "image_text": "6-9 word punchy headline for image overlay — make it grab attention",
+  "image_subtext": "4-6 word supporting tagline",
+  "reel_hook": "Surprising or emotional 3-second spoken hook — make people stop scrolling",
   "reel_scenes": [
-    {"scene":1,"duration":"3s","visual":"vivid description of opening visual","text_overlay":"hook text on screen","voiceover":"spoken words"},
-    {"scene":2,"duration":"4s","visual":"vivid description","text_overlay":"key fact or statement","voiceover":"spoken words"},
-    {"scene":3,"duration":"4s","visual":"vivid description","text_overlay":"emotional moment","voiceover":"spoken words"},
-    {"scene":4,"duration":"4s","visual":"vivid description","text_overlay":"inspiring takeaway","voiceover":"spoken words"},
-    {"scene":5,"duration":"5s","visual":"Positivly app branding on warm coral background","text_overlay":"Download Positivly — good vibes only","voiceover":"More moments like this, every day. Download Positivly."}
+    {"scene":1,"duration":"3s","visual":"precise opening visual description","text_overlay":"hook text","voiceover":"spoken words"},
+    {"scene":2,"duration":"4s","visual":"specific visual","text_overlay":"key fact","voiceover":"spoken words"},
+    {"scene":3,"duration":"4s","visual":"specific visual","text_overlay":"emotional moment","voiceover":"spoken words"},
+    {"scene":4,"duration":"4s","visual":"specific visual","text_overlay":"inspiring takeaway","voiceover":"spoken words"},
+    {"scene":5,"duration":"5s","visual":"Positivly app on warm coral background","text_overlay":"Download Positivly — good vibes only","voiceover":"More moments like this every day. Download Positivly."}
   ]
 }`;
 
-    try {
-      const res = await fetch(PROXY, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          max_tokens: 1400,
-          temperature: 0.9,
-          messages: [
-            { role: 'system', content: 'You are a creative content director. Respond with valid JSON only — no markdown, no backticks, no extra text.' },
-            { role: 'user', content: prompt }
-          ]
-        })
-      });
+  try {
+    const res = await fetch(PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 2000,
+        temperature: 0.88,
+        messages: [
+          { role: 'system', content: 'You are a creative content director and social media expert. Respond with valid JSON only — no markdown, no backticks, no extra text.' },
+          { role: 'user', content: prompt }
+        ]
+      })
+    });
 
-      if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `Error ${res.status}`); }
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || `Error ${res.status}`); }
+    const data = await res.json();
+    const result = JSON.parse(data.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
 
-      const data = await res.json();
-      const result = JSON.parse(data.choices[0].message.content.trim().replace(/```json|```/g,'').trim());
-
-      if (result.core_subject) {
-        usedTopics.push(result.core_subject);
-        if (usedTopics.length > 20) usedTopics.shift();
-      }
-
-      document.getElementById('ig-caption').value = result.instagram || '';
-      document.getElementById('tw-caption').value = result.twitter || '';
-      document.getElementById('fb-caption').value = result.facebook || '';
-
-      const tags = (result.hashtags||[]).map(h=>`#${h}`);
-      document.getElementById('hashtag-display').innerHTML = tags.map(t=>`<span class="hashtag">${t}</span>`).join('');
-      document.getElementById('hashtag-raw').value = tags.join(' ');
-
-      if (genImage && result.image_prompt) {
-        generateImage(result.image_prompt, result.image_text, result.image_subtext);
-      }
-      if (genReel) drawReel(result);
-
-    } catch(e) {
-      errEl.textContent = `Error: ${e.message}`;
-      errEl.style.display = 'block';
-      ['ig-caption','tw-caption','fb-caption'].forEach(id => { document.getElementById(id).value = ''; });
+    if (result.core_subject) {
+      usedTopics.push(result.core_subject);
+      if (usedTopics.length > 20) usedTopics.shift();
     }
 
-    btn.disabled = false;
-    btn.textContent = '✨ Generate content';
-    btn.classList.remove('pulsing');
+    if (document.getElementById('ig-caption')) document.getElementById('ig-caption').value = result.ig_caption || '';
+    if (document.getElementById('tw-caption')) document.getElementById('tw-caption').value = result.tw_caption || '';
+    if (document.getElementById('fb-caption')) document.getElementById('fb-caption').value = result.fb_caption || '';
+    if (document.getElementById('yt-title')) document.getElementById('yt-title').value = result.yt_title || '';
+    if (document.getElementById('yt-desc')) document.getElementById('yt-desc').value = result.yt_desc || '';
+
+    renderHashtags(result.ig_hashtags || [], 'ig-hashtags', 'ig-hash-raw', 'ig');
+    renderHashtags(result.tw_hashtags || [], 'tw-hashtags', 'tw-hash-raw', 'tw');
+    renderHashtags(result.fb_hashtags || [], 'fb-hashtags', 'fb-hash-raw', 'fb');
+    renderHashtags(result.yt_hashtags || [], 'yt-hashtags', 'yt-hash-raw', 'yt');
+
+    if (genReel) drawReel(result);
+
+    if (genImage || genVideo) {
+      await preloadLogo();
+      await generateMedia(result, genImage, genVideo);
+    } else {
+      document.getElementById('media-panels').innerHTML = '';
+    }
+
+  } catch(e) {
+    errEl.textContent = `Error: ${e.message}`;
+    errEl.style.display = 'block';
+    document.getElementById('media-panels').innerHTML = '';
   }
 
-  async function generateImage(prompt, overlayText, overlaySub) {
-    const container = document.getElementById('image-container');
-    const encodedPrompt = encodeURIComponent(prompt + ', high quality, vibrant, eye-catching, social media ready');
-    const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1080&height=1080&nologo=true&seed=${Math.floor(Math.random()*99999)}`;
+  btn.disabled = false;
+  btn.textContent = '✨ Generate content';
+  btn.classList.remove('pulsing');
+}
 
-    currentImageUrl = imageUrl;
+async function generateMedia(result, genImage, genVideo) {
+  const panels = document.getElementById('media-panels');
+  const tabs = document.getElementById('media-tabs');
+  panels.innerHTML = `<div class="media-loading"><div class="spinner"></div><span>Generating AI image...</span></div>`;
 
+  const encodedPrompt = encodeURIComponent(
+    result.image_prompt + ', photorealistic, vibrant colors, stunning composition, high detail, 8K'
+  );
+  const seed = Math.floor(Math.random() * 99999);
+  const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=1080&height=1080&nologo=true&seed=${seed}`;
+
+  const img = await loadImage(imageUrl);
+  if (!img) {
+    panels.innerHTML = `<div class="media-loading"><span style="color:#F4836A;">Image timed out — try again</span></div>`;
+    return;
+  }
+
+  generatedImageUrl = imageUrl;
+
+  const imageCanvas = buildImageCanvas(img, result.image_text, result.image_subtext);
+  const videoCanvas = genVideo ? buildVideoSetup(img, result.image_text, result.image_subtext) : null;
+
+  tabs.innerHTML = '';
+  panels.innerHTML = '';
+
+  if (genImage) {
+    const t = document.createElement('button');
+    t.className = 'media-tab active';
+    t.textContent = '🖼 Image card';
+    t.onclick = () => switchTab('image');
+    tabs.appendChild(t);
+
+    const p = document.createElement('div');
+    p.id = 'panel-image';
+    p.className = 'media-panel active';
+    imageCanvas.style.cursor = 'pointer';
+    imageCanvas.title = 'Click to download';
+    imageCanvas.onclick = () => downloadCanvasAs(imageCanvas, 'positivly-post.png');
+    p.appendChild(imageCanvas);
+
+    const hint = document.createElement('p');
+    hint.style.cssText = 'font-size:11px;color:#bbb;margin-top:6px;text-align:center;';
+    hint.textContent = 'Click image to download (1080×1080 PNG)';
+    p.appendChild(hint);
+    panels.appendChild(p);
+  }
+
+  if (genVideo && videoCanvas) {
+    const t = document.createElement('button');
+    t.className = `media-tab ${genImage ? '' : 'active'}`;
+    t.textContent = '🎬 Ken Burns video';
+    t.onclick = () => switchTab('video');
+    tabs.appendChild(t);
+
+    const p = document.createElement('div');
+    p.id = 'panel-video';
+    p.className = `media-panel ${genImage ? '' : 'active'}`;
+
+    const previewCanvas = document.createElement('canvas');
+    previewCanvas.width = 1080;
+    previewCanvas.height = 1080;
+    previewCanvas.style.cssText = 'width:100%;border-radius:14px;display:block;';
+    p.appendChild(previewCanvas);
+
+    const progressBar = document.createElement('div');
+    progressBar.style.cssText = 'height:4px;background:#f0e8e4;border-radius:4px;margin-top:8px;overflow:hidden;display:none;';
+    const progressFill = document.createElement('div');
+    progressFill.style.cssText = 'height:100%;background:#F4836A;border-radius:4px;width:0%;transition:width 0.2s;';
+    progressBar.appendChild(progressFill);
+    p.appendChild(progressBar);
+
+    const renderBtn = document.createElement('button');
+    renderBtn.style.cssText = 'width:100%;padding:11px;font-size:14px;font-weight:700;background:#F4836A;color:white;border:none;border-radius:10px;cursor:pointer;margin-top:10px;';
+    renderBtn.textContent = '▶ Render & download video';
+    renderBtn.onclick = () => renderKenBurnsVideo(img, result.image_text, result.image_subtext, previewCanvas, progressBar, progressFill, renderBtn);
+    p.appendChild(renderBtn);
+
+    const hint2 = document.createElement('p');
+    hint2.style.cssText = 'font-size:11px;color:#bbb;margin-top:6px;text-align:center;';
+    hint2.textContent = 'Renders a 15s Ken Burns video — works in Chrome & Edge';
+    p.appendChild(hint2);
+
+    panels.appendChild(p);
+
+    drawPreviewFrame(img, result.image_text, result.image_subtext, previewCanvas);
+  }
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.media-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.media-panel').forEach(p => p.classList.remove('active'));
+  const panel = document.getElementById('panel-' + name);
+  if (panel) panel.classList.add('active');
+  const tabs = document.querySelectorAll('.media-tab');
+  tabs.forEach(t => { if (t.textContent.toLowerCase().includes(name === 'image' ? 'image' : 'video')) t.classList.add('active'); });
+}
+
+function loadImage(url) {
+  return new Promise(resolve => {
     const img = new Image();
     img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      container.innerHTML = '';
-      const canvas = document.createElement('canvas');
-      canvas.width = 1080;
-      canvas.height = 1080;
-      const ctx = canvas.getContext('2d');
+    const timeout = setTimeout(() => resolve(null), 30000);
+    img.onload = () => { clearTimeout(timeout); resolve(img); };
+    img.onerror = () => { clearTimeout(timeout); resolve(null); };
+    img.src = url;
+  });
+}
 
-      ctx.drawImage(img, 0, 0, 1080, 1080);
+function buildImageCanvas(img, overlayText, overlaySub) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080; canvas.height = 1080;
+  const ctx = canvas.getContext('2d');
+  drawFrame(ctx, img, 0, 0, 1080, 1080, 1.0, overlayText, overlaySub);
+  return canvas;
+}
 
-      const grad = ctx.createLinearGradient(0, 600, 0, 1080);
-      grad.addColorStop(0, 'rgba(0,0,0,0)');
-      grad.addColorStop(1, 'rgba(0,0,0,0.78)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, 1080, 1080);
+function drawPreviewFrame(img, overlayText, overlaySub, canvas) {
+  const ctx = canvas.getContext('2d');
+  drawFrame(ctx, img, 0, 0, 1080, 1080, 1.15, overlayText, overlaySub);
+}
 
-      const logoImg = new Image();
-      logoImg.crossOrigin = 'anonymous';
-      logoImg.onload = () => {
-        const lSize = 80;
-        const lX = 60;
-        const lY = 1080 - 240;
-        ctx.save();
-        ctx.beginPath();
-        roundRect(ctx, lX, lY, lSize, lSize, 20);
-        ctx.clip();
-        ctx.drawImage(logoImg, lX, lY, lSize, lSize);
-        ctx.restore();
+function buildVideoSetup(img, overlayText, overlaySub) {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1080; canvas.height = 1080;
+  return canvas;
+}
 
-        drawOverlayText(ctx, overlayText, overlaySub, lY + lSize + 20);
+function downloadCanvasAs(canvas, filename) {
+  const a = document.createElement('a');
+  a.download = filename;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
 
-        canvas.style.width = '100%';
-        canvas.style.borderRadius = '14px';
-        canvas.style.display = 'block';
-        container.appendChild(canvas);
-        document.getElementById('dl-btn').style.display = 'inline-block';
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r, y);
+  ctx.lineTo(x+w-r, y);
+  ctx.quadraticCurveTo(x+w, y, x+w, y+r);
+  ctx.lineTo(x+w, y+h-r);
+  ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
+  ctx.lineTo(x+r, y+h);
+  ctx.quadraticCurveTo(x, y+h, x, y+h-r);
+  ctx.lineTo(x, y+r);
+  ctx.quadraticCurveTo(x, y, x+r, y);
+  ctx.closePath();
+}
 
-        canvas.onclick = () => {
-          const a = document.createElement('a');
-          a.download = 'positivly-post.png';
-          a.href = canvas.toDataURL('image/png');
-          a.click();
-        };
-        canvas.style.cursor = 'pointer';
-        canvas.title = 'Click to download';
+function drawFrame(ctx, img, panX, panY, W, H, scale, overlayText, overlaySub) {
+  ctx.clearRect(0, 0, W, H);
+  ctx.save();
+  ctx.translate(W/2, H/2);
+  ctx.scale(scale, scale);
+  const iW = img.width || 1080;
+  const iH = img.height || 1080;
+  const ratio = Math.max(W/iW, H/iH);
+  const dW = iW * ratio;
+  const dH = iH * ratio;
+  ctx.drawImage(img, panX - dW/2, panY - dH/2, dW, dH);
+  ctx.restore();
 
-        currentImageUrl = canvas.toDataURL('image/png');
-      };
-      logoImg.onerror = () => {
-        drawOverlayText(ctx, overlayText, overlaySub, 1080 - 200);
-        canvas.style.width = '100%';
-        canvas.style.borderRadius = '14px';
-        canvas.style.display = 'block';
-        container.appendChild(canvas);
-        document.getElementById('dl-btn').style.display = 'inline-block';
-        currentImageUrl = canvas.toDataURL('image/png');
-      };
-      logoImg.src = LOGO_URL;
-    };
+  const grad = ctx.createLinearGradient(0, H*0.45, 0, H);
+  grad.addColorStop(0, 'rgba(0,0,0,0)');
+  grad.addColorStop(1, 'rgba(0,0,0,0.82)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
 
-    img.onerror = () => {
-      container.innerHTML = `<div class="image-loading"><span style="color:#F4836A;">Image generation timed out — try again</span></div>`;
-    };
+  if (logoImage) {
+    const lSize = 72;
+    const lX = W - lSize - 40;
+    const lY = H - lSize - 80;
+    ctx.save();
+    roundRect(ctx, lX, lY, lSize, lSize, 16);
+    ctx.clip();
+    ctx.drawImage(logoImage, lX, lY, lSize, lSize);
+    ctx.restore();
 
-    img.src = imageUrl;
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.font = 'bold 20px -apple-system,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('positivly', W - 40, H - 24);
+    ctx.textAlign = 'left';
+  } else {
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
+    ctx.font = 'bold 22px -apple-system,sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('positivly.app', W - 40, H - 30);
+    ctx.textAlign = 'left';
   }
 
-  function roundRect(ctx, x, y, w, h, r) {
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.lineTo(x+w-r, y);
-    ctx.quadraticCurveTo(x+w, y, x+w, y+r);
-    ctx.lineTo(x+w, y+h-r);
-    ctx.quadraticCurveTo(x+w, y+h, x+w-r, y+h);
-    ctx.lineTo(x+r, y+h);
-    ctx.quadraticCurveTo(x, y+h, x, y+h-r);
-    ctx.lineTo(x, y+r);
-    ctx.quadraticCurveTo(x, y, x+r, y);
-    ctx.closePath();
+  const words = (overlayText||'').toUpperCase().split(' ');
+  const lines = []; let line = '';
+  ctx.font = 'bold 68px -apple-system,sans-serif';
+  for (const w of words) {
+    const t = line ? line+' '+w : w;
+    if (ctx.measureText(t).width > W - 120) { lines.push(line); line = w; } else line = t;
+  }
+  if (line) lines.push(line);
+
+  const logoReserve = logoImage ? 140 : 60;
+  const totalTextH = lines.length * 82 + (overlaySub ? 50 : 0);
+  let textY = H - logoReserve - totalTextH - 20;
+
+  ctx.fillStyle = 'white';
+  ctx.font = 'bold 68px -apple-system,sans-serif';
+  ctx.shadowColor = 'rgba(0,0,0,0.5)';
+  ctx.shadowBlur = 12;
+  for (const l of lines) { ctx.fillText(l, 60, textY); textY += 82; }
+
+  if (overlaySub) {
+    ctx.fillStyle = 'rgba(255,255,255,0.82)';
+    ctx.font = '400 32px -apple-system,sans-serif';
+    ctx.fillText(overlaySub, 60, textY + 8);
+  }
+  ctx.shadowBlur = 0;
+  ctx.shadowColor = 'transparent';
+}
+
+async function renderKenBurnsVideo(img, overlayText, overlaySub, previewCanvas, progressBar, progressFill, btn) {
+  if (!window.MediaRecorder) {
+    alert('Video recording not supported in this browser. Please use Chrome or Edge.');
+    return;
   }
 
-  function drawOverlayText(ctx, text, sub, startY) {
-    const words = (text||'').toUpperCase().split(' ');
-    const lines = []; let line = '';
-    ctx.font = 'bold 72px -apple-system,sans-serif';
-    for (const w of words) {
-      const t = line ? line+' '+w : w;
-      if (ctx.measureText(t).width > 960) { lines.push(line); line = w; } else line = t;
+  btn.disabled = true;
+  btn.textContent = 'Rendering...';
+  progressBar.style.display = 'block';
+  progressFill.style.width = '0%';
+
+  const W = 1080, H = 1080;
+  const FPS = 30;
+  const DURATION = 15;
+  const TOTAL_FRAMES = FPS * DURATION;
+
+  const offscreen = document.createElement('canvas');
+  offscreen.width = W; offscreen.height = H;
+  const ctx = offscreen.getContext('2d');
+
+  const effects = [
+    { startScale:1.0, endScale:1.18, startX:0, endX:0, startY:0, endY:0 },
+    { startScale:1.18, endScale:1.0, startX:30, endX:-30, startY:0, endY:0 },
+    { startScale:1.0, endScale:1.15, startX:0, endX:0, startY:30, endY:-30 },
+    { startScale:1.12, endScale:1.0, startX:-20, endX:20, startY:-20, endY:20 },
+    { startScale:1.0, endScale:1.2, startX:-30, endX:0, startY:0, endY:30 }
+  ];
+  const effect = effects[Math.floor(Math.random() * effects.length)];
+
+  let stream;
+  try {
+    stream = offscreen.captureStream(FPS);
+  } catch(e) {
+    alert('Canvas capture not supported. Please use Chrome or Edge.');
+    btn.disabled = false;
+    btn.textContent = '▶ Render & download video';
+    progressBar.style.display = 'none';
+    return;
+  }
+
+  const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+    ? 'video/webm;codecs=vp9'
+    : 'video/webm';
+
+  const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 8000000 });
+  const chunks = [];
+  recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'positivly-reel.webm';
+    a.click();
+    URL.revokeObjectURL(url);
+    btn.disabled = false;
+    btn.textContent = '▶ Render & download video';
+    progressBar.style.display = 'none';
+    progressFill.style.width = '0%';
+  };
+
+  recorder.start();
+
+  const easeInOut = t => t < 0.5 ? 2*t*t : -1+(4-2*t)*t;
+
+  let frame = 0;
+  const previewCtx = previewCanvas.getContext('2d');
+
+  function renderFrame() {
+    if (frame >= TOTAL_FRAMES) {
+      recorder.stop();
+      return;
     }
-    if (line) lines.push(line);
+    const progress = easeInOut(frame / TOTAL_FRAMES);
+    const scale = effect.startScale + (effect.endScale - effect.startScale) * progress;
+    const panX = effect.startX + (effect.endX - effect.startX) * progress;
+    const panY = effect.startY + (effect.endY - effect.startY) * progress;
 
-    ctx.fillStyle = 'white';
-    ctx.font = 'bold 72px -apple-system,sans-serif';
-    let y = startY;
-    for (const l of lines) { ctx.fillText(l, 60, y); y += 86; }
+    drawFrame(ctx, img, panX, panY, W, H, scale, overlayText, overlaySub);
 
-    if (sub) {
-      ctx.fillStyle = 'rgba(255,255,255,0.8)';
-      ctx.font = '400 36px -apple-system,sans-serif';
-      ctx.fillText(sub, 60, y + 10);
-    }
+    previewCtx.drawImage(offscreen, 0, 0, previewCanvas.width, previewCanvas.height);
 
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.font = '400 24px -apple-system,sans-serif';
-    ctx.fillText('positivly.app', 60, 1080 - 40);
+    const pct = Math.round((frame / TOTAL_FRAMES) * 100);
+    progressFill.style.width = pct + '%';
+
+    frame++;
+    requestAnimationFrame(renderFrame);
   }
 
-  function drawReel(result) {
-    const c = document.getElementById('reel-content');
-    let html = `<div class="reel-hook"><p class="hook-label">Hook (0–3s)</p><p class="hook-text">"${result.reel_hook||''}"</p></div>`;
-    for (const sc of result.reel_scenes||[]) {
-      html += `<div class="reel-scene">
-        <div class="scene-header"><span class="scene-num">Scene ${sc.scene}</span><span class="scene-dur">${sc.duration}</span></div>
-        <p class="scene-visual">👁 ${sc.visual}</p>
-        <p class="scene-overlay">"${sc.text_overlay}"</p>
-        <p class="scene-vo">${sc.voiceover}</p>
-      </div>`;
-    }
-    c.innerHTML = html;
+  renderFrame();
+}
+
+function drawReel(result) {
+  const c = document.getElementById('reel-content');
+  let html = `<div class="reel-hook"><p class="hook-label">Hook (0–3s)</p><p class="hook-text">"${result.reel_hook||''}"</p></div>`;
+  for (const sc of result.reel_scenes||[]) {
+    html += `<div class="reel-scene">
+      <div class="scene-header"><span class="scene-num">Scene ${sc.scene}</span><span class="scene-dur">${sc.duration}</span></div>
+      <p class="scene-visual">👁 ${sc.visual}</p>
+      <p class="scene-overlay">"${sc.text_overlay}"</p>
+      <p class="scene-vo">${sc.voiceover}</p>
+    </div>`;
   }
+  c.innerHTML = html;
+}
 </script>
 </body>
 </html>
